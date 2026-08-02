@@ -1,22 +1,12 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { loadFrames } from '../utils/frameLoader'
+import { FRAME_COUNT, loadFrames } from '../utils/frameLoader'
 
 gsap.registerPlugin(ScrollTrigger)
 
 function drawCoverImage(canvas, image) {
-  console.log('[debug] 7. drawCoverImage entered', performance.now(), 'ms')
-
-  if (!canvas || !image) {
-    if (!canvas) {
-      console.log('[debug] drawCoverImage skipped: canvas is null', performance.now(), 'ms')
-    }
-    if (!image) {
-      console.log('[debug] drawCoverImage skipped: image is null', performance.now(), 'ms')
-    }
-    return
-  }
+  if (!canvas || !image) return
 
   const width = window.innerWidth
   const height = window.innerHeight
@@ -28,10 +18,7 @@ function drawCoverImage(canvas, image) {
   canvas.style.height = `${height}px`
 
   const ctx = canvas.getContext('2d')
-  if (!ctx) {
-    console.log('[debug] drawCoverImage skipped: getContext("2d") returned null', performance.now(), 'ms')
-    return
-  }
+  if (!ctx) return
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
   ctx.fillStyle = '#000000'
@@ -43,22 +30,10 @@ function drawCoverImage(canvas, image) {
   const x = (width - drawWidth) / 2
   const y = (height - drawHeight) / 2
 
-  console.log('[debug] drawCoverImage metrics', {
-    imageWidth: image.width,
-    imageHeight: image.height,
-    naturalWidth: image.naturalWidth,
-    naturalHeight: image.naturalHeight,
-    canvasWidth: canvas.width,
-    canvasHeight: canvas.height,
-  })
-
   ctx.drawImage(image, x, y, drawWidth, drawHeight)
-  console.log('[debug] 8. drawImage completed', performance.now(), 'ms')
 }
 
 export default function LandingSequence() {
-  console.log('[debug] 1. LandingSequence mounted', performance.now(), 'ms')
-
   const sectionRef = useRef(null)
   const pinRef = useRef(null)
   const canvasRef = useRef(null)
@@ -66,106 +41,67 @@ export default function LandingSequence() {
   const frameIndexRef = useRef(0)
 
   useEffect(() => {
-    console.log('[debug] 2. useEffect started', performance.now(), 'ms')
-
     let cancelled = false
     let ctx = null
+    let scrollInited = false
 
     const renderFrame = (index) => {
-      if (index === 0) {
-        console.log('[debug] 6. renderFrame(0) entered', performance.now(), 'ms')
-      }
-
       const frames = framesRef.current
-      const max = frames.length - 1
-      if (max < 0) {
-        console.log(
-          '[debug] renderFrame skipped: frames cache empty (max < 0)',
-          performance.now(),
-          'ms',
-          { index, framesLength: frames.length },
-        )
-        return
-      }
-
+      const max = FRAME_COUNT - 1
       const clamped = Math.max(0, Math.min(max, index))
       const image = frames[clamped]
-      if (!image) {
-        console.log(
-          '[debug] renderFrame skipped: image missing at index',
-          performance.now(),
-          'ms',
-          { index, clamped, framesLength: frames.length },
-        )
-        return
-      }
-
-      if (canvasRef.current == null) {
-        console.log('[debug] canvasRef is null before drawCoverImage', performance.now(), 'ms')
-      }
+      if (!image) return
 
       frameIndexRef.current = clamped
       drawCoverImage(canvasRef.current, image)
     }
 
-    loadFrames(undefined, (firstImage) => {
-      console.log('[debug] 5. onFirstFrame called', performance.now(), 'ms', {
-        hasImage: Boolean(firstImage),
-        imageWidth: firstImage?.width,
-        imageHeight: firstImage?.height,
-        cancelled,
-      })
+    const initScrollAnimation = () => {
+      if (scrollInited || cancelled || !sectionRef.current || !pinRef.current) return
+      scrollInited = true
 
-      if (cancelled || !firstImage) {
-        if (cancelled) {
-          console.log(
-            '[debug] onFirstFrame returned early: cancelled is true',
-            performance.now(),
-            'ms',
-          )
-        }
-        if (!firstImage) {
-          console.log(
-            '[debug] onFirstFrame returned early: firstImage is null/falsy',
-            performance.now(),
-            'ms',
-          )
-        }
-        return
-      }
-      framesRef.current = [firstImage]
+      const state = { frame: 0 }
+
+      ctx = gsap.context(() => {
+        gsap.to(state, {
+          frame: FRAME_COUNT - 1,
+          ease: 'none',
+          snap: 'frame',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+            pin: pinRef.current,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+          onUpdate: () => {
+            renderFrame(Math.round(state.frame))
+          },
+        })
+      }, sectionRef)
+
+      ScrollTrigger.refresh()
+    }
+
+    loadFrames(undefined, (firstImage, frames) => {
+      if (cancelled || !firstImage) return
+
+      // Same array continues to fill as 0002–0894 load in the background.
+      framesRef.current = frames
       renderFrame(0)
+      initScrollAnimation()
     })
-      .then((images) => {
-        if (cancelled || !sectionRef.current || !pinRef.current) return
+      .then((frames) => {
+        if (cancelled) return
 
-        framesRef.current = images
-        const totalFrames = images.length
-        if (totalFrames === 0) return
+        framesRef.current = frames
+        renderFrame(frameIndexRef.current)
 
-        renderFrame(0)
-
-        const state = { frame: 0 }
-
-        ctx = gsap.context(() => {
-          gsap.to(state, {
-            frame: totalFrames - 1,
-            ease: 'none',
-            snap: 'frame',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: true,
-              pin: pinRef.current,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-            onUpdate: () => {
-              renderFrame(Math.round(state.frame))
-            },
-          })
-        }, sectionRef)
+        // Fallback if first-frame callback was skipped (e.g. failed first image).
+        initScrollAnimation()
+        ScrollTrigger.refresh()
       })
       .catch((error) => {
         console.error('Frame loading failed:', error)
@@ -179,7 +115,6 @@ export default function LandingSequence() {
     window.addEventListener('resize', handleResize)
 
     return () => {
-      console.log('[debug] useEffect cleanup: setting cancelled = true', performance.now(), 'ms')
       cancelled = true
       ctx?.revert()
       window.removeEventListener('resize', handleResize)

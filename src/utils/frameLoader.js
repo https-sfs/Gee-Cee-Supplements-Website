@@ -1,4 +1,4 @@
-const FRAME_COUNT = 894
+export const FRAME_COUNT = 894
 const FRAME_PAD = 4
 
 function framePath(index) {
@@ -9,65 +9,47 @@ function framePath(index) {
 function loadImage(src) {
   return new Promise((resolve) => {
     const image = new Image()
-    const isFirstFrame = src.includes('frame_0001.png')
 
-    image.onload = () => {
-      if (isFirstFrame) {
-        console.log(
-          '[debug] 4. frame_0001 finished downloading',
-          performance.now(),
-          'ms',
-          { imageWidth: image.width, imageHeight: image.height },
-        )
-      }
-      resolve(image)
-    }
+    image.onload = () => resolve(image)
     image.onerror = () => {
-      if (isFirstFrame) {
-        console.log(
-          '[debug] 4. frame_0001 finished downloading (ERROR)',
-          performance.now(),
-          'ms',
-        )
-      }
       console.warn(`Failed to load frame: ${src}`)
       resolve(null)
     }
 
-    if (isFirstFrame) {
-      console.log('[debug] 3. frame_0001 request started', performance.now(), 'ms')
-    }
     image.src = src
   })
 }
 
 /**
  * Loads every PNG frame from /frames/frame_0001.png through frame_0894.png.
- * Frame 0001 resolves first via onFirstFrame; remaining frames load in parallel after.
+ * Frame 0001 resolves first via onFirstFrame; remaining frames load in parallel after
+ * into the same fixed-length array (index-stable, including null holes on failure).
  * @param {(loaded: number, total: number) => void} [onProgress]
- * @param {(image: HTMLImageElement | null) => void} [onFirstFrame]
- * @returns {Promise<HTMLImageElement[]>}
+ * @param {(image: HTMLImageElement | null, frames: (HTMLImageElement | null)[]) => void} [onFirstFrame]
+ * @returns {Promise<(HTMLImageElement | null)[]>}
  */
 export async function loadFrames(onProgress, onFirstFrame) {
   const total = FRAME_COUNT
+  const frames = new Array(total)
   let loaded = 0
 
   const first = await loadImage(framePath(1))
+  frames[0] = first
   loaded = 1
   onProgress?.(loaded, total)
-  onFirstFrame?.(first)
+  onFirstFrame?.(first, frames)
 
   const restTasks = Array.from({ length: total - 1 }, (_, i) => {
-    const index = i + 2
-    return loadImage(framePath(index)).then((image) => {
+    const frameNumber = i + 2
+    const frameIndex = frameNumber - 1
+    return loadImage(framePath(frameNumber)).then((image) => {
+      frames[frameIndex] = image
       loaded += 1
       onProgress?.(loaded, total)
       return image
     })
   })
 
-  console.log('[debug] 9. Promise.all started', performance.now(), 'ms')
-  const rest = await Promise.all(restTasks)
-  console.log('[debug] 10. Promise.all finished', performance.now(), 'ms')
-  return [first, ...rest].filter(Boolean)
+  await Promise.all(restTasks)
+  return frames
 }

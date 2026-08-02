@@ -2,9 +2,11 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { FRAME_COUNT, loadFrames } from '../utils/frameLoader'
+import { drawPortraitFrame, isPortraitMobile } from '../utils/portraitDraw'
 
 gsap.registerPlugin(ScrollTrigger)
 
+/** Desktop cover renderer — production-final. Do not alter. */
 function drawCoverImage(canvas, image) {
   if (!canvas || !image) return
 
@@ -33,6 +35,14 @@ function drawCoverImage(canvas, image) {
   ctx.drawImage(image, x, y, drawWidth, drawHeight)
 }
 
+function drawFrame(canvas, image, frameIndex) {
+  if (isPortraitMobile()) {
+    drawPortraitFrame(canvas, image, frameIndex)
+    return
+  }
+  drawCoverImage(canvas, image)
+}
+
 export default function LandingSequence() {
   const sectionRef = useRef(null)
   const pinRef = useRef(null)
@@ -53,7 +63,7 @@ export default function LandingSequence() {
       if (!image) return
 
       frameIndexRef.current = clamped
-      drawCoverImage(canvasRef.current, image)
+      drawFrame(canvasRef.current, image, clamped)
     }
 
     const initScrollAnimation = () => {

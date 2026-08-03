@@ -156,6 +156,36 @@
   box-shadow: var(--shadow-float);
 }
 
+@utility solution-card {
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-shadow: var(--shadow-float);
+  transition:
+    transform 0.65s var(--ease-cine),
+    box-shadow 0.65s var(--ease-cine),
+    border-color 0.65s var(--ease-cine);
+  &:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in oklab, var(--primary) 28%, white);
+    box-shadow:
+      0 2px 8px oklch(0.55 0.14 249 / 0.07),
+      0 22px 56px oklch(0.55 0.14 249 / 0.14),
+      0 0 0 1px color-mix(in oklab, var(--primary) 18%, transparent);
+  }
+  &:hover .solution-image {
+    transform: scale(1.05);
+  }
+  &:hover .explore-arrow {
+    transform: translateX(4px);
+    color: var(--primary);
+  }
+}
+
+@utility solution-image {
+  transition: transform 1.15s var(--ease-cine);
+  will-change: transform;
+}
+
 @utility reveal {
   opacity: 0;
   transform: translateY(28px);

@@ -1,6 +1,7 @@
 import Navbar from './components/Navbar'
 import LandingSequence from './components/LandingSequence'
 import EngineeringHeritage from './components/home/EngineeringHeritage'
+import EngineeringSolutions from './components/home/EngineeringSolutions'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Navbar />
       <LandingSequence />
       <EngineeringHeritage />
+      <EngineeringSolutions />
     </>
   )
 }

@@ -18,7 +18,7 @@ export default function SectionHeading({
       )}
     >
       {kicker ? <p className="kicker mb-4">{kicker}</p> : null}
-      <h2 id={titleId} className="display-lg text-foreground">
+      <h2 id={titleId} className="display-lg text-foreground whitespace-pre-line">
         {title}
       </h2>
       {body ? <p className="lede mt-5">{body}</p> : null}

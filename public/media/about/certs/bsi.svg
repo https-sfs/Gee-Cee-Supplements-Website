@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none" aria-hidden="true">
+  <path d="M36 4 L66 21 V51 L36 68 L6 51 V21 Z" stroke="#1A2433" stroke-width="2.2" stroke-linejoin="round"/>
+  <path d="M36 14 L58 26.5 V45.5 L36 58 L14 45.5 V26.5 Z" stroke="#1A2433" stroke-width="1.4" stroke-linejoin="round"/>
+  <text x="36" y="40" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="800" fill="#1A2433" letter-spacing="0.08em">BSI</text>
+</svg>

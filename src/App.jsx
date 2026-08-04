@@ -1,25 +1,14 @@
-import Navbar from './components/Navbar'
-import LandingSequence from './components/LandingSequence'
-import EngineeringHeritage from './components/home/EngineeringHeritage'
-import EngineeringSolutions from './components/home/EngineeringSolutions'
-import ManufacturingRD from './components/home/ManufacturingRD'
-import LandmarkProjects from './components/home/LandmarkProjects'
-import HomeCTA from './components/home/HomeCTA'
-import Footer from './components/Footer'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import AboutPage from './pages/AboutPage'
 
-function App() {
+export default function App() {
   return (
-    <>
-      <Navbar />
-      <LandingSequence />
-      <EngineeringHeritage />
-      <EngineeringSolutions />
-      <ManufacturingRD />
-      <LandmarkProjects />
-      <HomeCTA />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App

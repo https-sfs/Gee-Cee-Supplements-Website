@@ -1,34 +1,47 @@
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import Reveal from './shared/Reveal'
 import { solutions } from '../data/solutions'
 import { cn } from '../lib/utils'
 
 const companyLinks = [
-  { href: '#engineering', label: 'About' },
-  { href: '#projects', label: 'Industries' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#contact', label: 'Contact' },
+  { href: '/about', label: 'About', internal: true },
+  { href: '/#projects', label: 'Industries' },
+  { href: '/#projects', label: 'Projects' },
+  { href: '/#contact', label: 'Contact' },
 ]
 
 const productLinks = solutions.slice(0, 6).map((item) => ({
-  href: '#solutions',
+  href: '/#solutions',
   label: item.name,
 }))
 
-function FooterLink({ href, label, className }) {
-  return (
-    <a
-      href={href}
-      className={cn(
-        'group inline-flex items-center gap-1.5 text-sm text-foreground/55 transition-all duration-[250ms] [transition-timing-function:var(--ease-cine)] hover:text-primary',
-        className,
-      )}
-    >
+function FooterLink({ href, label, className, internal = false }) {
+  const classes = cn(
+    'group inline-flex items-center gap-1.5 text-sm text-foreground/55 transition-all duration-[250ms] [transition-timing-function:var(--ease-cine)] hover:text-primary',
+    className,
+  )
+  const content = (
+    <>
       <span>{label}</span>
       <ArrowRight
         aria-hidden="true"
         className="size-3.5 -translate-x-1 opacity-0 transition-all duration-[250ms] [transition-timing-function:var(--ease-cine)] group-hover:translate-x-0 group-hover:opacity-100"
       />
+    </>
+  )
+
+  if (internal) {
+    return (
+      <Link to={href} className={classes}>
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <a href={href} className={classes}>
+      {content}
     </a>
   )
 }
@@ -89,11 +102,15 @@ export default function Footer() {
               Company
             </h3>
             <ul className="mt-6 space-y-4">
-              {companyLinks.map((link) => (
-                <li key={link.label}>
-                  <FooterLink href={link.href} label={link.label} />
-                </li>
-              ))}
+                {companyLinks.map((link) => (
+                  <li key={link.label}>
+                    <FooterLink
+                      href={link.href}
+                      label={link.label}
+                      internal={link.internal}
+                    />
+                  </li>
+                ))}
             </ul>
           </div>
 
@@ -109,7 +126,7 @@ export default function Footer() {
               ))}
               <li>
                 <FooterLink
-                  href="#solutions"
+                  href="/#solutions"
                   label="View all categories"
                   className="font-medium text-blue-deep hover:text-primary"
                 />

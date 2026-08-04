@@ -4,6 +4,7 @@ import EngineeringHeritage from './components/home/EngineeringHeritage'
 import EngineeringSolutions from './components/home/EngineeringSolutions'
 import ManufacturingRD from './components/home/ManufacturingRD'
 import LandmarkProjects from './components/home/LandmarkProjects'
+import HomeCTA from './components/home/HomeCTA'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <EngineeringSolutions />
       <ManufacturingRD />
       <LandmarkProjects />
+      <HomeCTA />
     </>
   )
 }

@@ -6,7 +6,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer id="contact" className="border-t border-slate-200/80 bg-slate-950 text-white">
+    <footer className="border-t border-slate-200/80 bg-slate-950 text-white">
       <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 px-6 py-12 sm:flex-row">
         <a href="#home" className="flex items-center gap-3">
           <img

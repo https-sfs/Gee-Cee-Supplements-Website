@@ -3,7 +3,7 @@ import LandingSequence from './components/LandingSequence'
 import EngineeringHeritage from './components/home/EngineeringHeritage'
 import EngineeringSolutions from './components/home/EngineeringSolutions'
 import ManufacturingRD from './components/home/ManufacturingRD'
-import IndustriesServed from './components/home/IndustriesServed'
+import LandmarkProjects from './components/home/LandmarkProjects'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
       <EngineeringHeritage />
       <EngineeringSolutions />
       <ManufacturingRD />
-      <IndustriesServed />
+      <LandmarkProjects />
     </>
   )
 }

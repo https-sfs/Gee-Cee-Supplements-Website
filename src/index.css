@@ -186,6 +186,14 @@
   will-change: transform;
 }
 
+@utility project-panel-zoom {
+  transition: transform 1.35s var(--ease-cine);
+  will-change: transform;
+  .project-panel:hover & {
+    transform: scale(1.045);
+  }
+}
+
 @utility reveal {
   opacity: 0;
   transform: translateY(28px);
@@ -220,6 +228,14 @@
   .reveal-blur {
     opacity: 1 !important;
     filter: none !important;
+    transform: none !important;
+  }
+
+  .project-panel-zoom {
+    transition: none !important;
+  }
+
+  .project-panel:hover .project-panel-zoom {
     transform: none !important;
   }
 }

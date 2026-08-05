@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
 import ProductsPage from './pages/ProductsPage'
 import ProductCategoryPage from './pages/ProductCategoryPage'
+import ProductDetailPage from './pages/ProductDetailPage'
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/products" element={<ProductsPage />} />
-        <Route path="/products/:slug" element={<ProductCategoryPage />} />
+        <Route path="/products/:categoryId" element={<ProductCategoryPage />} />
+        <Route path="/products/:categoryId/:productId" element={<ProductDetailPage />} />
       </Routes>
     </BrowserRouter>
   )

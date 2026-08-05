@@ -2,22 +2,15 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { Check, Phone } from 'lucide-react'
+import { productsLandingCTA } from '../../data/categoryCTAs'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const PHONE_DISPLAY = '+91 98499 90061'
-const PHONE_HREF = 'tel:+919849990061'
-const ENQUIRY_HREF =
-  'mailto:info@geeceechem.com?subject=Technical%20Data%20Sheet%20Request'
-
-const TRUST_POINTS = [
-  'Latest TDS',
-  'Dosage Guidance',
-  'Product Recommendation',
-  'Fast Response',
-]
-
-export default function ProductsCTA() {
+/**
+ * Approved typography CTA — design is locked.
+ * Pass `content` to override copy (category pages); defaults to Products landing CTA.
+ */
+export default function ProductsCTA({ content = productsLandingCTA }) {
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
   const headingRef = useRef(null)
@@ -25,19 +18,32 @@ export default function ProductsCTA() {
   const trustRef = useRef(null)
   const buttonsRef = useRef(null)
 
+  const {
+    eyebrow,
+    headlineLead,
+    headlineHighlight,
+    headlineTrail,
+    body,
+    features,
+    primaryLabel,
+    phoneDisplay,
+    phoneHref,
+    enquiryHref,
+  } = content
+
   useEffect(() => {
     const root = sectionRef.current
     if (!root) return
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const eyebrow = eyebrowRef.current
+    const eyebrowEl = eyebrowRef.current
     const heading = headingRef.current
-    const body = bodyRef.current
+    const bodyEl = bodyRef.current
     const trustItems = trustRef.current?.querySelectorAll('[data-trust-item]')
     const buttons = buttonsRef.current?.querySelectorAll('[data-cta-btn]')
 
     const ctx = gsap.context(() => {
       if (reduced) {
-        gsap.set([eyebrow, heading, body, trustItems, buttons], {
+        gsap.set([eyebrowEl, heading, bodyEl, trustItems, buttons], {
           clearProps: 'all',
           opacity: 1,
           y: 0,
@@ -49,7 +55,7 @@ export default function ProductsCTA() {
       const ease = 'power2.out'
 
       gsap.fromTo(
-        eyebrow,
+        eyebrowEl,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.9, ease, scrollTrigger: trigger },
       )
@@ -68,7 +74,7 @@ export default function ProductsCTA() {
       )
 
       gsap.fromTo(
-        body,
+        bodyEl,
         { y: 30, opacity: 0 },
         {
           y: 0,
@@ -114,7 +120,9 @@ export default function ProductsCTA() {
     }, root)
 
     return () => ctx.revert()
-  }, [])
+  }, [content])
+
+  const bodyLines = body.split('\n')
 
   return (
     <section
@@ -123,7 +131,6 @@ export default function ProductsCTA() {
       className="relative overflow-hidden bg-white"
       style={{ paddingTop: '7.5rem', paddingBottom: '8.75rem' }}
     >
-      {/* Soft radial glow behind typography */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-[42%] h-[min(36rem,70vw)] w-[min(48rem,90vw)] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -133,7 +140,6 @@ export default function ProductsCTA() {
         }}
       />
 
-      {/* Subtle engineering grid — ~3–4% behind heading */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.32]"
@@ -155,13 +161,13 @@ export default function ProductsCTA() {
           className="text-[0.75rem] font-semibold uppercase tracking-[0.18em]"
           style={{ color: '#2495ff' }}
         >
-          Technical Support
+          {eyebrow}
         </p>
 
         <h2
           ref={headingRef}
           id="products-cta-heading"
-          className="font-display max-w-[16ch] font-bold tracking-[-0.045em]"
+          className="font-display max-w-[18ch] font-bold tracking-[-0.045em]"
           style={{
             marginTop: '1.625rem',
             fontSize: 'clamp(2.5rem, 1.5rem + 3vw, 4.75rem)',
@@ -169,11 +175,15 @@ export default function ProductsCTA() {
             lineHeight: 0.92,
           }}
         >
-          <span style={{ color: '#101722' }}>Need the right</span>
+          <span style={{ color: '#101722' }}>{headlineLead}</span>
           <br />
-          <span style={{ color: '#2495ff' }}>technical data sheet</span>
-          <br />
-          <span style={{ color: '#101722' }}>for your project?</span>
+          <span style={{ color: '#2495ff' }}>{headlineHighlight}</span>
+          {headlineTrail ? (
+            <>
+              <br />
+              <span style={{ color: '#101722' }}>{headlineTrail}</span>
+            </>
+          ) : null}
         </h2>
 
         <p
@@ -181,10 +191,12 @@ export default function ProductsCTA() {
           className="max-w-[760px] text-[1.125rem] leading-[1.7] sm:text-[1.25rem] sm:leading-[1.65] lg:text-[1.375rem] lg:leading-[1.6]"
           style={{ color: '#5F6B7A', marginTop: '2.125rem' }}
         >
-          Tell us the product name, application and project requirements.
-          <br className="hidden sm:block" />
-          Our engineering team will send the latest Technical Data Sheet, dosage recommendations
-          and pricing suited to your required quantity.
+          {bodyLines.map((line, i) => (
+            <span key={i}>
+              {i > 0 ? <br className="hidden sm:block" /> : null}
+              {line}
+            </span>
+          ))}
         </p>
 
         <ul
@@ -192,7 +204,7 @@ export default function ProductsCTA() {
           className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:gap-x-7"
           style={{ marginTop: '2.125rem' }}
         >
-          {TRUST_POINTS.map((item) => (
+          {features.map((item) => (
             <li
               key={item}
               data-trust-item
@@ -216,18 +228,18 @@ export default function ProductsCTA() {
         >
           <a
             data-cta-btn
-            href={ENQUIRY_HREF}
+            href={enquiryHref}
             className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-9 text-[0.95rem] font-medium text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-float-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]"
           >
-            Start an Enquiry
+            {primaryLabel}
           </a>
           <a
             data-cta-btn
-            href={PHONE_HREF}
+            href={phoneHref}
             className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary/25 bg-transparent px-8 text-[0.95rem] font-medium text-blue-deep transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:border-primary/45 hover:bg-blue-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]"
           >
             <Phone aria-hidden="true" className="size-4 text-[#2495ff]" />
-            Call {PHONE_DISPLAY}
+            Call {phoneDisplay}
           </a>
         </div>
       </div>

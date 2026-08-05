@@ -1,28 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import { cn } from '../../lib/utils'
 
-const VARIANT_CLASS = {
-  up: 'reveal',
-  blur: 'reveal-blur',
-  soft: 'reveal-soft',
-  cta: 'reveal-cta',
-}
-
-export default function Reveal({
-  children,
-  className,
-  delay = 0,
-  as: Tag = 'div',
-  variant = 'up',
-  threshold = 0.12,
-  rootMargin = '0px 0px -8% 0px',
-}) {
+/**
+ * Observes a product-grid row. When ~20% visible, staggers child
+ * `.product-row-reveal-item` cards into view once.
+ */
+export default function ProductRowReveal({ children, className }) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const node = ref.current
     if (!node) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(true)
+      return
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -31,21 +25,20 @@ export default function Reveal({
           observer.disconnect()
         }
       },
-      { threshold, rootMargin },
+      { threshold: 0.2, rootMargin: '0px' },
     )
 
     observer.observe(node)
     return () => observer.disconnect()
-  }, [threshold, rootMargin])
+  }, [])
 
   return (
-    <Tag
+    <div
       ref={ref}
       data-visible={visible ? 'true' : 'false'}
-      style={{ '--reveal-delay': `${delay}ms` }}
-      className={cn(VARIANT_CLASS[variant] || 'reveal', className)}
+      className={cn('product-row-reveal', className)}
     >
       {children}
-    </Tag>
+    </div>
   )
 }

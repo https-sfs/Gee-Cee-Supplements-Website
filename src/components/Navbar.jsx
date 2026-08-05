@@ -5,7 +5,7 @@ import { Phone } from 'lucide-react'
 const links = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
-  { label: 'Products', to: '/#solutions' },
+  { label: 'Products', to: '/products' },
   { label: 'Projects', to: '/#projects' },
   { label: 'Contact', to: '/#contact' },
 ]

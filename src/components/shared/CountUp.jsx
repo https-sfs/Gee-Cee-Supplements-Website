@@ -6,11 +6,14 @@ function easeOutCubic(t) {
 
 /**
  * Counts from 0 → end once when the element enters the viewport.
+ *
+ * @param {boolean} deferSuffix — when true, suffix is shown only after the count completes
  */
 export default function CountUp({
   end,
   suffix = '',
   duration = 1300,
+  deferSuffix = false,
   className,
   ...props
 }) {
@@ -18,6 +21,7 @@ export default function CountUp({
   const rafRef = useRef(0)
   const startedRef = useRef(false)
   const [value, setValue] = useState(0)
+  const [done, setDone] = useState(false)
 
   useEffect(() => {
     const node = ref.current
@@ -26,6 +30,7 @@ export default function CountUp({
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduceMotion) {
       setValue(end)
+      setDone(true)
       return
     }
 
@@ -49,6 +54,7 @@ export default function CountUp({
             rafRef.current = requestAnimationFrame(tick)
           } else {
             setValue(end)
+            setDone(true)
           }
         }
 
@@ -65,10 +71,16 @@ export default function CountUp({
     }
   }, [end, duration])
 
+  const showSuffix = !deferSuffix || done
+
   return (
     <span ref={ref} className={className} {...props}>
       {value}
-      {suffix}
+      {suffix ? (
+        <span style={deferSuffix && !showSuffix ? { visibility: 'hidden' } : undefined} aria-hidden={deferSuffix && !done}>
+          {suffix}
+        </span>
+      ) : null}
     </span>
   )
 }

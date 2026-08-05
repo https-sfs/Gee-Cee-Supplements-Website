@@ -134,7 +134,7 @@ function AboutHero() {
       </div>
 
       <div
-        className="shell relative z-10 flex items-start lg:items-center"
+        className="relative z-10 mx-auto flex w-full max-w-[92rem] items-start px-4 sm:px-5 lg:items-center lg:pl-3 lg:pr-4 xl:pl-4 xl:pr-6"
         style={{ minHeight: 'max(47.5rem, 88vh)' }}
       >
         <div

@@ -5,7 +5,9 @@ import { solutions } from '../data/solutions'
 import { cn } from '../lib/utils'
 
 const companyLinks = [
+  { href: '/', label: 'Home', internal: true },
   { href: '/about', label: 'About', internal: true },
+  { href: '/products', label: 'Products', internal: true },
   { href: '/#projects', label: 'Industries' },
   { href: '/#projects', label: 'Projects' },
   { href: '/#contact', label: 'Contact' },

@@ -199,27 +199,29 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
           ))}
         </p>
 
-        <ul
-          ref={trustRef}
-          className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:gap-x-7"
-          style={{ marginTop: '2.125rem' }}
-        >
-          {features.map((item) => (
-            <li
-              key={item}
-              data-trust-item
-              className="inline-flex items-center gap-1.5 text-[0.875rem]"
-              style={{ color: '#6d7684' }}
-            >
-              <Check
-                className="size-3.5 shrink-0 text-[#2495ff]"
-                strokeWidth={2.4}
-                aria-hidden="true"
-              />
-              {item}
-            </li>
-          ))}
-        </ul>
+        {features?.length ? (
+          <ul
+            ref={trustRef}
+            className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 sm:gap-x-7"
+            style={{ marginTop: '2.125rem' }}
+          >
+            {features.map((item) => (
+              <li
+                key={item}
+                data-trust-item
+                className="inline-flex items-center gap-1.5 text-[0.875rem]"
+                style={{ color: '#6d7684' }}
+              >
+                <Check
+                  className="size-3.5 shrink-0 text-[#2495ff]"
+                  strokeWidth={2.4}
+                  aria-hidden="true"
+                />
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
 
         <div
           ref={buttonsRef}

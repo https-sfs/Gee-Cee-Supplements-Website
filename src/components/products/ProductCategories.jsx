@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import Reveal from '../shared/Reveal'
-import ProductMetricsStrip from './ProductMetricsStrip'
 import ProductRowReveal from './ProductRowReveal'
 import { filterProductCategories } from '../../lib/productSearch'
 import { cn } from '../../lib/utils'
@@ -216,11 +215,6 @@ export default function ProductCategories({ searchQuery = '' }) {
             </div>
           )}
         </div>
-      </div>
-
-      {/* Stats strip stays on white */}
-      <div className="mx-auto w-full max-w-[92rem] px-4 sm:px-5 lg:px-6 xl:px-8">
-        <ProductMetricsStrip />
       </div>
     </section>
   )

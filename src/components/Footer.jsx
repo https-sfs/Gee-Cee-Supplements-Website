@@ -1,7 +1,6 @@
 import { ArrowRight, Mail, MapPin, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import Reveal from './shared/Reveal'
-import { solutions } from '../data/solutions'
 import { cn } from '../lib/utils'
 
 const companyLinks = [
@@ -13,10 +12,38 @@ const companyLinks = [
   { href: '/#contact', label: 'Contact' },
 ]
 
-const productLinks = solutions.slice(0, 6).map((item) => ({
-  href: '/#solutions',
-  label: item.name,
-}))
+const productLinks = [
+  {
+    href: '/products/concrete-admixtures',
+    label: 'Concrete & Mortar Admixtures',
+    internal: true,
+  },
+  {
+    href: '/products/integral-waterproofing',
+    label: 'Integral Waterproofing Compounds',
+    internal: true,
+  },
+  {
+    href: '/products/grouts-anchoring',
+    label: 'Grouts & Anchoring Systems',
+    internal: true,
+  },
+  {
+    href: '/products/waterproofing-protective-coatings',
+    label: 'Waterproofing & Protective Coatings',
+    internal: true,
+  },
+  {
+    href: '/products/bonding-agents',
+    label: 'Bonding Agents',
+    internal: true,
+  },
+  {
+    href: '/products/repairs-rehabilitation',
+    label: 'Repairs & Rehabilitation',
+    internal: true,
+  },
+]
 
 function FooterLink({ href, label, className, internal = false }) {
   const classes = cn(
@@ -123,13 +150,18 @@ export default function Footer() {
             <ul className="mt-6 space-y-4">
               {productLinks.map((link) => (
                 <li key={link.label}>
-                  <FooterLink href={link.href} label={link.label} />
+                  <FooterLink
+                    href={link.href}
+                    label={link.label}
+                    internal={link.internal}
+                  />
                 </li>
               ))}
               <li>
                 <FooterLink
-                  href="/#solutions"
+                  href="/products"
                   label="View all categories"
+                  internal
                   className="font-medium text-blue-deep hover:text-primary"
                 />
               </li>

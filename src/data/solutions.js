@@ -7,7 +7,7 @@ export const solutions = [
     description:
       'Workability, strength and control — engineered into the mix for mass concrete, RMC and critical pours.',
     image: '/media/solutions/concrete-admixtures.jpg',
-    href: '#solutions',
+    href: '/products/concrete-admixtures',
   },
   {
     slug: 'integral-waterproofing',
@@ -16,7 +16,7 @@ export const solutions = [
     description:
       'ISI-certified systems that densify the matrix and keep water out from within the concrete.',
     image: '/media/solutions/integral-waterproofing.jpg',
-    href: '#solutions',
+    href: '/products/integral-waterproofing',
   },
   {
     slug: 'grouts-anchoring',
@@ -25,16 +25,16 @@ export const solutions = [
     description:
       'Precision grouts and anchors for bearings, base plates, dowels and high-load structural connections.',
     image: '/media/solutions/grouts-anchoring.jpg',
-    href: '#solutions',
+    href: '/products/grouts-anchoring',
   },
   {
-    slug: 'waterproofing-coatings',
+    slug: 'waterproofing-protective-coatings',
     name: 'Waterproofing & Protective Coatings',
     productCount: 4,
     description:
       'Brushable membranes and protective finishes that bridge cracks and shield concrete from exposure.',
     image: '/media/solutions/waterproofing-coatings.jpg',
-    href: '#solutions',
+    href: '/products/waterproofing-protective-coatings',
   },
   {
     slug: 'bonding-agents',
@@ -43,7 +43,7 @@ export const solutions = [
     description:
       'Latex and epoxy bonding systems that lock fresh concrete and repairs to existing substrates.',
     image: '/media/solutions/bonding-agents.jpg',
-    href: '#solutions',
+    href: '/products/bonding-agents',
   },
   {
     slug: 'repairs-rehabilitation',
@@ -52,7 +52,7 @@ export const solutions = [
     description:
       'Structural repair mortars and putties that restore integrity without interrupting service.',
     image: '/media/solutions/repair-rehabilitation.jpg',
-    href: '#solutions',
+    href: '/products/repairs-rehabilitation',
   },
   {
     slug: 'industrial-flooring',
@@ -61,6 +61,6 @@ export const solutions = [
     description:
       'High-performance floors engineered for abrasion, chemical exposure and continuous plant traffic.',
     image: '/media/solutions/industrial-flooring.jpg',
-    href: '#solutions',
+    href: '/products/industrial-flooring',
   },
 ]

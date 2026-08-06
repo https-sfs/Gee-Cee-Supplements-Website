@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import Reveal from '../shared/Reveal'
 import ProductMetricsStrip from './ProductMetricsStrip'
 import ProductRowReveal from './ProductRowReveal'
-import { productCategories } from '../../data/productCategories'
+import { filterProductCategories } from '../../lib/productSearch'
 import { cn } from '../../lib/utils'
 
 /** Matches `grid-cols-1 sm:grid-cols-2 lg:grid-cols-3` */
@@ -96,12 +96,36 @@ function CategoryCard({ category }) {
   )
 }
 
-export default function ProductCategories() {
-  const columns = useCategoryColumns()
-  const rows = useMemo(
-    () => chunkCategories(productCategories, columns),
-    [columns],
+function EmptySearchState() {
+  return (
+    <div className="mx-auto max-w-md py-16 text-center sm:py-20">
+      <p
+        className="font-display text-[1.35rem] font-semibold tracking-[-0.02em]"
+        style={{ color: '#101722' }}
+      >
+        No matching products found.
+      </p>
+      <p className="mt-3 text-[1.02rem] leading-[1.65]" style={{ color: '#5F6B7A' }}>
+        Try searching by product name,
+        <br />
+        category or application.
+      </p>
+    </div>
   )
+}
+
+export default function ProductCategories({ searchQuery = '' }) {
+  const columns = useCategoryColumns()
+  const filtered = useMemo(
+    () => filterProductCategories(searchQuery),
+    [searchQuery],
+  )
+  const rows = useMemo(
+    () => chunkCategories(filtered, columns),
+    [filtered, columns],
+  )
+  const hasQuery = searchQuery.trim().length > 0
+  const isEmpty = filtered.length === 0
 
   return (
     <section
@@ -169,25 +193,28 @@ export default function ProductCategories() {
             </Reveal>
           </div>
 
-          {/* Equal-importance category grid — row observes, cards stagger */}
-          <div className="flex flex-col gap-7 sm:gap-8">
-            {rows.map((row) => (
-              <ProductRowReveal
-                key={row.map((c) => c.slug).join('-')}
-                className="grid grid-cols-1 gap-7 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3"
-              >
-                {row.map((category, i) => (
-                  <div
-                    key={category.slug}
-                    className="product-row-reveal-item h-full"
-                    style={{ '--row-reveal-delay': `${i * 180}ms` }}
-                  >
-                    <CategoryCard category={category} />
-                  </div>
-                ))}
-              </ProductRowReveal>
-            ))}
-          </div>
+          {isEmpty && hasQuery ? (
+            <EmptySearchState />
+          ) : (
+            <div className="flex flex-col gap-7 sm:gap-8">
+              {rows.map((row) => (
+                <ProductRowReveal
+                  key={row.map((c) => c.slug).join('-')}
+                  className="grid grid-cols-1 gap-7 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3"
+                >
+                  {row.map((category, i) => (
+                    <div
+                      key={category.slug}
+                      className="product-row-reveal-item h-full"
+                      style={{ '--row-reveal-delay': `${i * 180}ms` }}
+                    >
+                      <CategoryCard category={category} />
+                    </div>
+                  ))}
+                </ProductRowReveal>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

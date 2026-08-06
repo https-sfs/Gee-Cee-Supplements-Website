@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import Reveal from '../shared/Reveal'
 import { solutions } from '../../data/solutions'
@@ -21,7 +22,7 @@ function CardArrow() {
 
 function FeaturedCard({ solution }) {
   return (
-    <a href={solution.href} className="solution-card group block overflow-hidden rounded-[1.5rem]">
+    <Link to={solution.href} className="solution-card group block overflow-hidden rounded-[1.5rem]">
       <div className="grid lg:grid-cols-[1.35fr_1fr]">
         <div className="relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[22rem]">
           <img
@@ -50,13 +51,16 @@ function FeaturedCard({ solution }) {
           </p>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 
 function SolutionCard({ solution }) {
   return (
-    <a href={solution.href} className="solution-card group flex h-full flex-col overflow-hidden rounded-[1.5rem]">
+    <Link
+      to={solution.href}
+      className="solution-card group flex h-full flex-col overflow-hidden rounded-[1.5rem]"
+    >
       <div className="relative aspect-[16/10] overflow-hidden">
         <img
           src={solution.image}
@@ -77,7 +81,7 @@ function SolutionCard({ solution }) {
           {solution.description}
         </p>
       </div>
-    </a>
+    </Link>
   )
 }
 

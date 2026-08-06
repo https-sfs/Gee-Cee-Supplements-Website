@@ -1,16 +1,16 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ArrowRight, Download } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ProductsHero() {
+export default function ProductsHero({ query = '', onQueryChange, onSearchSubmit }) {
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
   const headingRef = useRef(null)
   const bodyRef = useRef(null)
-  const buttonsRef = useRef(null)
+  const searchRef = useRef(null)
   const productsRef = useRef(null)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function ProductsHero() {
         eyebrowRef.current,
         headingRef.current,
         bodyRef.current,
-        buttonsRef.current,
+        searchRef.current,
         productsRef.current,
       ]
 
@@ -48,7 +48,7 @@ export default function ProductsHero() {
         { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.2 },
       )
       gsap.fromTo(
-        buttonsRef.current,
+        searchRef.current,
         { y: 16, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.28 },
       )
@@ -61,6 +61,12 @@ export default function ProductsHero() {
 
     return () => ctx.revert()
   }, [])
+
+  const handleKeyDown = (e) => {
+    if (e.key !== 'Enter') return
+    e.preventDefault()
+    onSearchSubmit?.()
+  }
 
   return (
     <section
@@ -141,24 +147,29 @@ export default function ProductsHero() {
               longevity of structures. Manufactured with precision. Trusted for decades.
             </p>
 
-            <div
-              ref={buttonsRef}
-              className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center"
-            >
-              <a
-                href="#product-categories"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-primary px-8 text-[0.95rem] font-medium text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:bg-[#4d8ff0] hover:shadow-[var(--shadow-float-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-              >
-                Browse Products
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </a>
-              <a
-                href="mailto:info@geeceechem.com?subject=Catalogue%20Request"
-                className="inline-flex h-14 items-center justify-center gap-2 rounded-full border border-primary/35 bg-white px-8 text-[0.95rem] font-medium text-[#2495ff] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:border-primary hover:bg-primary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-              >
-                <Download className="size-4" aria-hidden="true" />
-                Download Catalogue
-              </a>
+            <div ref={searchRef} className="mt-8 w-full max-w-[540px]">
+              <label htmlFor="products-hero-search" className="sr-only">
+                Search products
+              </label>
+              <div className="group relative flex h-[59px] w-full items-center rounded-[17px] border border-[rgba(36,149,255,0.22)] bg-white shadow-[0_4px_18px_rgba(45,70,110,0.06)] transition-all duration-[250ms] ease-out focus-within:border-[#2495ff] focus-within:shadow-[0_0_0_4px_rgba(36,149,255,0.14),0_6px_22px_rgba(45,70,110,0.08)]">
+                <Search
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-5 size-[1.15rem] shrink-0 text-[#8a94a3] transition-colors duration-[250ms] ease-out group-focus-within:text-[#2495ff]"
+                  strokeWidth={1.75}
+                />
+                <input
+                  id="products-hero-search"
+                  type="search"
+                  value={query}
+                  onChange={(e) => onQueryChange?.(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Search products — e.g. Aquaseal, grout, epoxy"
+                  autoComplete="off"
+                  spellCheck="false"
+                  className="h-full w-full rounded-[17px] bg-transparent py-3 pr-5 text-[0.98rem] text-[#101722] outline-none placeholder:text-[#8a94a3]"
+                  style={{ paddingLeft: '3.15rem' }}
+                />
+              </div>
             </div>
           </div>
 

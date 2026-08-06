@@ -893,8 +893,10 @@ export const categories = [
 /** Map Products landing card slugs → Lovable catalogue slugs when they differ. */
 const SLUG_ALIASES = {
   'waterproofing-coatings': 'waterproofing-systems',
+  'waterproofing-protective-coatings': 'waterproofing-systems',
   'expansion-joints-sealants': 'expansion-joints',
   'concrete-mortar-admixtures': 'concrete-admixtures',
+  'curing-compounds-mould-release': 'curing-mould-release',
 }
 
 export const resolveCategorySlug = (slug) => SLUG_ALIASES[slug] || slug

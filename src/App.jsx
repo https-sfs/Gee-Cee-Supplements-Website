@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/HomePage'
@@ -6,6 +7,8 @@ import ProductsPage from './pages/ProductsPage'
 import ProductCategoryPage from './pages/ProductCategoryPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import IndustriesPage from './pages/IndustriesPage'
+
+const IndustryDetailPage = lazy(() => import('./pages/IndustryDetailPage'))
 
 export default function App() {
   return (
@@ -18,6 +21,14 @@ export default function App() {
         <Route path="/products/:categoryId" element={<ProductCategoryPage />} />
         <Route path="/products/:categoryId/:productId" element={<ProductDetailPage />} />
         <Route path="/industries" element={<IndustriesPage />} />
+        <Route
+          path="/industries/:industryId"
+          element={
+            <Suspense fallback={null}>
+              <IndustryDetailPage />
+            </Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   )

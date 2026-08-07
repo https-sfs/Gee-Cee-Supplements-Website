@@ -64,11 +64,26 @@ export const productsLandingCTA = {
   enquiryHref: 'mailto:info@geeceechem.com?subject=Technical%20Data%20Sheet%20Request',
 }
 
-/** Industries page CTA */
+/** Industries landing page CTA */
 export const industriesCTA = {
   eyebrow: 'Technical Support',
   headlineLead: 'Not sure which system',
   headlineHighlight: 'your structure needs?',
+  body: 'Share your specification, drawings or site conditions. Our technical team will recommend the right system — and the dosage to go with it.',
+  features: [],
+  primaryLabel: 'Start an enquiry',
+  phoneDisplay: '+91 98499 90061',
+  phoneHref: 'tel:+919849990061',
+  enquiryHref:
+    'mailto:info@geeceechem.com?subject=' +
+    encodeURIComponent('Industry System Enquiry'),
+}
+
+/** Industry detail pages CTA (/industries/*) — copy only; design unchanged */
+export const industryDetailCTA = {
+  eyebrow: 'Technical Support',
+  headlineLead: 'Tell us what',
+  headlineHighlight: "you're building.",
   body: 'Share your specification, drawings or site conditions. Our technical team will recommend the right system — and the dosage to go with it.',
   features: [],
   primaryLabel: 'Start an enquiry',

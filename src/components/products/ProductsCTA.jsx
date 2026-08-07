@@ -9,14 +9,19 @@ gsap.registerPlugin(ScrollTrigger)
 /**
  * Approved typography CTA — design is locked.
  * Pass `content` to override copy (category pages); defaults to Products landing CTA.
+ * Pass `emphasis="premium"` for Industry Detail pages only — larger type + rhythm.
  */
-export default function ProductsCTA({ content = productsLandingCTA }) {
+export default function ProductsCTA({
+  content = productsLandingCTA,
+  emphasis,
+}) {
   const sectionRef = useRef(null)
   const eyebrowRef = useRef(null)
   const headingRef = useRef(null)
   const bodyRef = useRef(null)
   const trustRef = useRef(null)
   const buttonsRef = useRef(null)
+  const premium = emphasis === 'premium'
 
   const {
     eyebrow,
@@ -120,7 +125,7 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
     }, root)
 
     return () => ctx.revert()
-  }, [content])
+  }, [content, premium])
 
   const bodyLines = body.split('\n')
 
@@ -158,8 +163,21 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
       <div className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center sm:px-5">
         <p
           ref={eyebrowRef}
-          className="text-[0.75rem] font-semibold uppercase tracking-[0.18em]"
-          style={{ color: '#2495ff' }}
+          className={
+            premium
+              ? 'uppercase'
+              : 'text-[0.75rem] font-semibold uppercase tracking-[0.18em]'
+          }
+          style={
+            premium
+              ? {
+                  color: '#2495ff',
+                  fontSize: '15px',
+                  letterSpacing: '0.22em',
+                  fontWeight: 600,
+                }
+              : { color: '#2495ff' }
+          }
         >
           {eyebrow}
         </p>
@@ -169,10 +187,12 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
           id="products-cta-heading"
           className="font-display max-w-[18ch] font-bold tracking-[-0.045em]"
           style={{
-            marginTop: '1.625rem',
-            fontSize: 'clamp(2.5rem, 1.5rem + 3vw, 4.75rem)',
+            marginTop: premium ? '2.25rem' : '1.625rem',
+            fontSize: premium
+              ? 'clamp(3.75rem, 5vw, 4.875rem)'
+              : 'clamp(2.5rem, 1.5rem + 3vw, 4.75rem)',
             fontWeight: 700,
-            lineHeight: 0.92,
+            lineHeight: premium ? 0.95 : 0.92,
           }}
         >
           <span style={{ color: '#101722' }}>{headlineLead}</span>
@@ -188,8 +208,22 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
 
         <p
           ref={bodyRef}
-          className="max-w-[760px] text-[1.125rem] leading-[1.7] sm:text-[1.25rem] sm:leading-[1.65] lg:text-[1.375rem] lg:leading-[1.6]"
-          style={{ color: '#5F6B7A', marginTop: '2.125rem' }}
+          className={
+            premium
+              ? 'w-full max-w-[900px]'
+              : 'max-w-[760px] text-[1.125rem] leading-[1.7] sm:text-[1.25rem] sm:leading-[1.65] lg:text-[1.375rem] lg:leading-[1.6]'
+          }
+          style={
+            premium
+              ? {
+                  color: '#5F6B7A',
+                  marginTop: '2.875rem',
+                  fontSize: '22px',
+                  lineHeight: 1.7,
+                  fontWeight: 400,
+                }
+              : { color: '#5F6B7A', marginTop: '2.125rem' }
+          }
         >
           {bodyLines.map((line, i) => (
             <span key={i}>
@@ -226,19 +260,37 @@ export default function ProductsCTA({ content = productsLandingCTA }) {
         <div
           ref={buttonsRef}
           className="flex flex-col items-center gap-3.5 sm:flex-row sm:gap-4"
-          style={{ marginTop: '2.625rem' }}
+          style={{ marginTop: premium ? '3.375rem' : '2.625rem' }}
         >
           <a
             data-cta-btn
             href={enquiryHref}
-            className="inline-flex h-12 items-center justify-center rounded-full bg-primary px-9 text-[0.95rem] font-medium text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-float-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]"
+            className={
+              premium
+                ? 'inline-flex h-12 items-center justify-center rounded-full bg-primary px-9 text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-float-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]'
+                : 'inline-flex h-12 items-center justify-center rounded-full bg-primary px-9 text-[0.95rem] font-medium text-primary-foreground shadow-[var(--shadow-soft)] transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-float-hover)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]'
+            }
+            style={
+              premium
+                ? { fontSize: '18px', fontWeight: 600 }
+                : undefined
+            }
           >
             {primaryLabel}
           </a>
           <a
             data-cta-btn
             href={phoneHref}
-            className="inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary/25 bg-transparent px-8 text-[0.95rem] font-medium text-blue-deep transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:border-primary/45 hover:bg-blue-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]"
+            className={
+              premium
+                ? 'inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary/25 bg-transparent px-8 text-blue-deep transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:border-primary/45 hover:bg-blue-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]'
+                : 'inline-flex h-12 items-center justify-center gap-2.5 rounded-full border border-primary/25 bg-transparent px-8 text-[0.95rem] font-medium text-blue-deep transition-all duration-500 [transition-timing-function:var(--ease-cine)] hover:-translate-y-0.5 hover:border-primary/45 hover:bg-blue-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:h-[3.25rem]'
+            }
+            style={
+              premium
+                ? { fontSize: '18px', fontWeight: 500 }
+                : undefined
+            }
           >
             <Phone aria-hidden="true" className="size-4 text-[#2495ff]" />
             Call {phoneDisplay}

@@ -18,7 +18,7 @@ export const industries = [
       { icon: 'route', label: 'Expressways' },
       { icon: 'map', label: 'Toll Roads' },
     ],
-    href: '/projects?industry=roads-highways',
+    href: '/industries/roads-highways',
     imageObjectPosition: 'center center',
   },
   {
@@ -35,7 +35,7 @@ export const industries = [
       { icon: 'route', label: 'Elevated Corridors' },
       { icon: 'map', label: 'Transport Structures' },
     ],
-    href: '/projects?industry=bridges-flyovers',
+    href: '/industries/bridges-flyovers',
     imageObjectPosition: 'center center',
   },
   {
@@ -52,7 +52,7 @@ export const industries = [
       { icon: 'waypoints', label: 'Elevated Stations' },
       { icon: 'map', label: 'Transit system' },
     ],
-    href: '/projects?industry=railways-metro',
+    href: '/industries/railways-metro',
   },
   {
     slug: 'dams-irrigation',
@@ -68,7 +68,7 @@ export const industries = [
       { icon: 'route', label: 'Canals' },
       { icon: 'map', label: 'Irrigation Projects' },
     ],
-    href: '/projects?industry=dams-irrigation',
+    href: '/industries/dams-irrigation',
   },
   {
     slug: 'water-sewage',
@@ -84,7 +84,7 @@ export const industries = [
       { icon: 'road', label: 'Reservoirs' },
       { icon: 'map', label: 'Utilities' },
     ],
-    href: '/projects?industry=water-sewage',
+    href: '/industries/water-sewage',
   },
   {
     slug: 'industrial-plants',
@@ -100,7 +100,7 @@ export const industries = [
       { icon: 'road', label: 'Industrial Floors' },
       { icon: 'map', label: 'Factory Infrastructure' },
     ],
-    href: '/projects?industry=industrial-plants',
+    href: '/industries/industrial-plants',
     imageObjectPosition: 'center center',
   },
   {
@@ -117,7 +117,7 @@ export const industries = [
       { icon: 'road', label: 'Educational Institutions' },
       { icon: 'map', label: 'Public Facilities' },
     ],
-    href: '/projects?industry=commercial-institutional',
+    href: '/industries/commercial-institutional',
     imageObjectPosition: 'center center',
   },
   {
@@ -134,7 +134,7 @@ export const industries = [
       { icon: 'road', label: 'Housing Projects' },
       { icon: 'map', label: 'Residential Complexes' },
     ],
-    href: '/projects?industry=residential-developments',
+    href: '/industries/residential',
     imageObjectPosition: 'center center',
   },
 ]

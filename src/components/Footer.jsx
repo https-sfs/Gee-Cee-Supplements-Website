@@ -8,7 +8,7 @@ const companyLinks = [
   { href: '/about', label: 'About', internal: true },
   { href: '/products', label: 'Products', internal: true },
   { href: '/industries', label: 'Industries', internal: true },
-  { href: '/#projects', label: 'Projects' },
+  { href: '/projects', label: 'Projects', internal: true },
   { href: '/#contact', label: 'Contact' },
 ]
 

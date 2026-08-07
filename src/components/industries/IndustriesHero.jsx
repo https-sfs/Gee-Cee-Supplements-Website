@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight } from 'lucide-react'
-import Button from '../ui/Button'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -149,14 +148,23 @@ export default function IndustriesHero() {
             and long-term performance.
           </p>
 
-          <div className="mt-8 sm:mt-9">
-            <Button asChild variant="default" size="xl">
-              <a href="#industries-listing" onClick={scrollToIndustries}>
-                Explore Industries
-                <ArrowRight aria-hidden="true" />
-              </a>
-            </Button>
-          </div>
+          <a
+            href="#industries-listing"
+            onClick={scrollToIndustries}
+            className="group/cta mt-8 inline-flex w-fit cursor-pointer items-center gap-2 border-b border-transparent pb-0.5 transition-[color,border-color] duration-300 ease-out hover:border-[#6d7684]/50 hover:text-[#4B5563] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 sm:mt-9"
+            style={{
+              fontSize: '18px',
+              fontWeight: 400,
+              color: '#6d7684',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            Explore Industries
+            <ArrowRight
+              aria-hidden="true"
+              className="size-[1.125rem] shrink-0 transition-transform duration-300 ease-out group-hover/cta:translate-x-2"
+            />
+          </a>
         </div>
       </div>
 

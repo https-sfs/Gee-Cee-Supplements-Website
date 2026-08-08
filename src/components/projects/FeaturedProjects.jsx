@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight, MapPin } from 'lucide-react'
+import { getProjectProductHref } from '../../lib/projectProductLinks'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -359,16 +360,29 @@ function FeaturedProjectRow({ project, isFirst, isLast }) {
               Products Used
             </p>
             <ul ref={pillsRef} className="mt-3 flex flex-wrap gap-2">
-              {project.products.map((product) => (
-                <li key={product}>
-                  <span
-                    data-product-pill
-                    className="inline-flex cursor-pointer rounded-full border border-[#E5EAF2] bg-white px-3.5 py-1.5 text-[0.9375rem] font-medium text-[#374151] transition-colors duration-250 ease-out hover:border-[#2495ff]/45 hover:bg-blue-soft"
-                  >
-                    {product}
-                  </span>
-                </li>
-              ))}
+              {project.products.map((product) => {
+                const href = getProjectProductHref(product)
+                const pillClassName =
+                  'inline-flex cursor-pointer rounded-full border border-[#D8E8FA] bg-[#F0F6FF] px-3.5 py-1.5 text-[0.9375rem] font-medium text-[#1B3555] transition-all duration-200 ease-out hover:border-[#C5DCF5] hover:bg-[#E4F0FF] hover:text-[#142840] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2495ff]'
+
+                return (
+                  <li key={product}>
+                    {href ? (
+                      <Link
+                        to={href}
+                        data-product-pill
+                        className={pillClassName}
+                      >
+                        {product}
+                      </Link>
+                    ) : (
+                      <span data-product-pill className={pillClassName}>
+                        {product}
+                      </span>
+                    )}
+                  </li>
+                )
+              })}
             </ul>
 
             <Link

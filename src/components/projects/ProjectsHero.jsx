@@ -8,14 +8,15 @@ import {
   Gauge,
   MapPin,
 } from 'lucide-react'
+import CountUp from '../shared/CountUp'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const STATS = [
-  { value: '250+', label: 'Projects Delivered', Icon: CalendarCheck },
-  { value: '18+', label: 'States Covered', Icon: MapPin },
-  { value: '25+', label: 'Years of Expertise', Icon: Award },
-  { value: '200 TPD', label: 'Production Capacity', Icon: Gauge },
+  { end: 250, suffix: '+', label: 'Projects Delivered', Icon: CalendarCheck },
+  { end: 18, suffix: '+', label: 'States Covered', Icon: MapPin },
+  { end: 25, suffix: '+', label: 'Years of Expertise', Icon: Award },
+  { end: 200, suffix: ' TPD', label: 'Production Capacity', Icon: Gauge },
 ]
 
 /**
@@ -204,7 +205,7 @@ export default function ProjectsHero() {
             }}
           >
             <ul className="flex flex-col">
-              {STATS.map(({ value, label, Icon }, index) => (
+              {STATS.map(({ end, suffix, label, Icon }, index) => (
                 <li
                   key={label}
                   className={
@@ -224,7 +225,13 @@ export default function ProjectsHero() {
                         className="font-display font-bold tracking-[-0.03em]"
                         style={{ fontSize: '1.65rem', lineHeight: 1.1, color: '#111827' }}
                       >
-                        {value}
+                        <CountUp
+                          end={end}
+                          suffix={suffix}
+                          duration={1700}
+                          delay={0.4 + index * 0.12}
+                          aria-label={`${end}${suffix} ${label}`}
+                        />
                       </p>
                       <p
                         className="mt-1 text-[0.8125rem] tracking-wide"

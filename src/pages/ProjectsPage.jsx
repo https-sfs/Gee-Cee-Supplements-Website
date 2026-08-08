@@ -4,10 +4,14 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import ProjectsHero from '../components/projects/ProjectsHero'
 import FeaturedProjects from '../components/projects/FeaturedProjects'
+import EngineeringApplications from '../components/projects/EngineeringApplications'
+import OurReach from '../components/projects/OurReach'
+import TrustedByLeaders from '../components/projects/TrustedByLeaders'
+import TechnicalSupportCTA from '../components/projects/TechnicalSupportCTA'
 
 /**
- * Projects page — hero + Featured Projects (Project 01).
- * Remaining projects and sections land in later sprints.
+ * Projects page — hero, Featured Projects, Engineering Applications,
+ * Our Reach, Trusted By Industry Leaders, Technical Support CTA.
  */
 export default function ProjectsPage() {
   useEffect(() => {
@@ -21,6 +25,10 @@ export default function ProjectsPage() {
       <main>
         <ProjectsHero />
         <FeaturedProjects />
+        <EngineeringApplications />
+        <OurReach />
+        <TrustedByLeaders />
+        <TechnicalSupportCTA />
       </main>
       <Footer />
     </>

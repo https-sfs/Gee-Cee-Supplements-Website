@@ -17,6 +17,7 @@ import Navbar from '../components/Navbar'
 import AboutCTA from '../components/about/AboutCTA'
 import Footer from '../components/Footer'
 import Reveal from '../components/shared/Reveal'
+import CountUp, { parseCounterValue } from '../components/shared/CountUp'
 import IndiaMap from '../components/about/IndiaMap'
 import { about } from '../data/about'
 
@@ -257,7 +258,9 @@ function AboutStory() {
 
         <div ref={stripRef} className="relative w-full self-center">
           <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {stats.map((stat) => (
+            {stats.map((stat, index) => {
+              const { end, suffix } = parseCounterValue(stat.value)
+              return (
               <li
                 key={stat.label}
                 data-stat
@@ -274,7 +277,13 @@ function AboutStory() {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {stat.value}
+                    <CountUp
+                      end={end}
+                      suffix={suffix}
+                      duration={1800}
+                      delay={index * 0.12}
+                      aria-label={`${stat.value} ${stat.label}`}
+                    />
                   </p>
                   <p
                     className="mt-2.5 max-w-[140px] text-[0.9375rem] leading-[1.4]"
@@ -284,7 +293,8 @@ function AboutStory() {
                   </p>
                 </div>
               </li>
-            ))}
+              )
+            })}
           </ul>
         </div>
       </div>

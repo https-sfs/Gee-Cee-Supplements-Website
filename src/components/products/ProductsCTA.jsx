@@ -161,33 +161,37 @@ export default function ProductsCTA({
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-[900px] flex-col items-center px-4 text-center sm:px-5">
-        <p
-          ref={eyebrowRef}
-          className={
-            premium
-              ? 'uppercase'
-              : 'text-[0.75rem] font-semibold uppercase tracking-[0.18em]'
-          }
-          style={
-            premium
-              ? {
-                  color: '#2495ff',
-                  fontSize: '15px',
-                  letterSpacing: '0.22em',
-                  fontWeight: 600,
-                }
-              : { color: '#2495ff' }
-          }
-        >
-          {eyebrow}
-        </p>
+        {eyebrow ? (
+          <p
+            ref={eyebrowRef}
+            className={
+              premium
+                ? 'uppercase'
+                : 'text-[0.75rem] font-semibold uppercase tracking-[0.18em]'
+            }
+            style={
+              premium
+                ? {
+                    color: '#2495ff',
+                    fontSize: '15px',
+                    letterSpacing: '0.22em',
+                    fontWeight: 600,
+                  }
+                : { color: '#2495ff' }
+            }
+          >
+            {eyebrow}
+          </p>
+        ) : (
+          <span ref={eyebrowRef} className="hidden" aria-hidden="true" />
+        )}
 
         <h2
           ref={headingRef}
           id="products-cta-heading"
           className="font-display max-w-[18ch] font-bold tracking-[-0.045em]"
           style={{
-            marginTop: premium ? '2.25rem' : '1.625rem',
+            marginTop: eyebrow ? (premium ? '2.25rem' : '1.625rem') : 0,
             fontSize: premium
               ? 'clamp(3.75rem, 5vw, 4.875rem)'
               : 'clamp(2.5rem, 1.5rem + 3vw, 4.75rem)',

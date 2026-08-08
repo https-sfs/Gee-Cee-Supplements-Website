@@ -79,6 +79,21 @@ export const industriesCTA = {
     encodeURIComponent('Industry System Enquiry'),
 }
 
+/** Project Case Study detail pages — copy only; ProductsCTA design unchanged */
+export const projectCaseStudyCTA = {
+  eyebrow: '',
+  headlineLead: 'Planning Your Next',
+  headlineHighlight: 'Infrastructure Project?',
+  body: 'Share your project specifications and our technical team will recommend the right construction chemical solutions for your application.',
+  features: [],
+  primaryLabel: 'Start an Enquiry →',
+  phoneDisplay: '+91 98499 90061',
+  phoneHref: 'tel:+919849990061',
+  enquiryHref:
+    'mailto:info@geeceechem.com?subject=' +
+    encodeURIComponent('Project Enquiry — Technical Support'),
+}
+
 /** Industry detail pages CTA (/industries/*) — copy only; design unchanged */
 export const industryDetailCTA = {
   eyebrow: 'Technical Support',

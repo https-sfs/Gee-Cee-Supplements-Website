@@ -8,6 +8,7 @@ import ProductCategoryPage from './pages/ProductCategoryPage'
 import ProductDetailPage from './pages/ProductDetailPage'
 import IndustriesPage from './pages/IndustriesPage'
 import ProjectsPage from './pages/ProjectsPage'
+import ProjectCaseStudyPage from './pages/ProjectCaseStudyPage'
 
 const IndustryDetailPage = lazy(() => import('./pages/IndustryDetailPage'))
 
@@ -31,6 +32,7 @@ export default function App() {
           }
         />
         <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:projectId" element={<ProjectCaseStudyPage />} />
       </Routes>
     </BrowserRouter>
   )
